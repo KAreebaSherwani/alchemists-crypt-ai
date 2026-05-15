@@ -2,7 +2,7 @@
 
 > *"The curse does not breathe, yet it feels your pulse."*
 
-A tactical FPS mobile game where a **Council of Three AI agents** controls a tomb of mummies that adapt in real-time to the player's every move. Built for the **Agentic Game Quest — Challenge 4** using Google Antigravity + Gemini Flash.
+A tactical FPS mobile game where a **Council of Three AI agents** controls a tomb of mummies that adapt in real-time to the player's every move. Built for the **Agentic Game Quest — Challenge 4** using Google Antigravity 
 
 ---
 
