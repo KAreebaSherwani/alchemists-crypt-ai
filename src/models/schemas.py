@@ -26,6 +26,8 @@ class GameState(BaseModel):
     session_metadata: SessionMetadata
     player: PlayerState
     mummies: List[MummyState]
+    pharaoh_active: Optional[bool] = False
+    nearby_environment: Optional[str] = ""
 
 # --- Output Models (FastAPI to Unity) ---
 
