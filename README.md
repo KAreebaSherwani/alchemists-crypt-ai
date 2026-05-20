@@ -96,7 +96,7 @@ Google Antigravity served as the **primary orchestrator** throughout development
 
 ## 🔌 API Reference
 
-**Base URL:** `https://alchemists-crypt-ai-production.up.railway.app`
+**Base URL:** `https://alchemists-crypt-backend.onrender.com`
 
 ### POST `/api/v1/hive-mind`
 Unity sends game state → Hive Mind Council returns tactics.
