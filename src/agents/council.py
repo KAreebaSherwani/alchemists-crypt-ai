@@ -57,19 +57,42 @@ class HiveMindCouncil:
             return self._get_fallback_tactics(game_state)
 
     def _get_fallback_tactics(self, game_state: GameState) -> HiveTactics:
+        """
+        Called when Gemini API is unavailable (quota exceeded, invalid key, etc).
+        Returns a useful fallback: mummies chase/flank the player instead of idling.
+        NOTE: GEMINI_API_KEY appears to be revoked. Update the key on Railway to restore AI.
+        """
+        player_pos = game_state.player.pos  # [x, y, z]
+        instructions = []
+        for m in game_state.mummies:
+            # Alternate: half chase directly, half try to flank (offset left/right)
+            if m.id % 2 == 0:
+                # Even IDs: flank left (+15 on X)
+                target = [player_pos[0] + 15.0, player_pos[1], player_pos[2]]
+                action = "flank"
+            else:
+                # Odd IDs: chase directly toward player
+                target = player_pos
+                action = "chase"
+            instructions.append({
+                "id": m.id,
+                "action": action,
+                "target": target,
+                "delay": 0.0,
+                "speed_mult": 1.2
+            })
+
         return HiveTactics(
-            hive_tactic="Standard Patrol",
+            hive_tactic="Autonomous Patrol",
             agentic_negotiation={
-                "pharaoh_proposal": "Maintain positions.",
+                "pharaoh_proposal": "Chase and flank the intruder.",
                 "arbiter_veto": "None",
-                "empathy_note": "System stabilizing.",
-                "final_consensus": "Proceed with default behavior."
+                "empathy_note": "AI backend offline — using autonomous rules.",
+                "final_consensus": "Execute chase/flank pattern."
             },
-            reasoning_trace="AI connection issues or parsing error. Defaulting to safe state.",
+            reasoning_trace="[FALLBACK] Gemini API unavailable. API key may be revoked or quota exceeded. Update GEMINI_API_KEY on Railway. Mummies executing autonomous chase/flank.",
             arbiter_check="APPROVED",
-            instructions=[
-                {"id": m.id, "action": "idle", "target": m.pos} for m in game_state.mummies
-            ],
-            narration="The crypt remains silent... for now."
+            instructions=instructions,
+            narration="The ancient dead need no orders... they hunger."
         )
 
